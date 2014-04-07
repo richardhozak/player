@@ -1,0 +1,260 @@
+﻿<Window x:Class="DriftPlayer.PlayerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:this="clr-namespace:DriftPlayer"
+        xmlns:converters="clr-namespace:DriftPlayer.Converters"
+        Title="Player" Background="Transparent" Height="65" Width="310" ResizeMode="NoResize" ShowInTaskbar="False" ShowActivated="False" Loaded="Window_Loaded" WindowStyle="None" AllowsTransparency="True" Deactivated="Window_Deactivated">
+    <Window.Resources>
+        <converters:InverseVisibilityConverter x:Key="InverseVisibilityConverter"/>
+        <converters:VisibilityConverter x:Key="VisibilityConverter"/>
+        <converters:FloatToPercentageConverter x:Key="FloatToPercentageConverter"/>
+    </Window.Resources>
+    <Border BorderBrush="#FF007ACC" Background="#FF2D2D30" BorderThickness="1" Margin="4">
+        <Border.Effect>
+            <DropShadowEffect ShadowDepth="0" Color="#FF007ACC" BlurRadius="4" />
+        </Border.Effect>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Height="40" Width="40" Margin="5" Command="{Binding Path=PreviousCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Viewbox Stretch="Uniform">
+                                            <Canvas Width="125" Height="75" Background="Transparent">
+                                                <Polygon x:Name="Shape1" Points="49.9998,37.4994 87.4995,18.7497 125,0 124.999,37.4997 125,75 87.4996,56.2498" FillRule="EvenOdd" Fill="#EEEEF2"/>
+                                                <Polygon x:Name="Shape2" Points="-0.0001,37.5 37.4998,18.75 74.9996,0 74.9996,37.5 74.9996,75 37.4998,56.25" FillRule="EvenOdd" Fill="#EEEEF2"/>
+                                            </Canvas>
+                                        </Viewbox>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="Shape1" Property="Fill" Value="#FF007ACC"/>
+                                                <Setter TargetName="Shape2" Property="Fill" Value="#FF007ACC"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Grid.Column="1" Height="40" Width="40" Margin="5" Visibility="{Binding Path=IsPaused, Converter={StaticResource VisibilityConverter}}" Command="{Binding Path=PlayCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Viewbox x:Name="PlayViewbox" Stretch="Uniform">
+                                            <Canvas Width="100" Height="100" Background="Transparent">
+                                                <Polygon x:Name="Shape" Points="100,50 49.9999,75 -0,100 -0,50 -0,0 49.9999,25" FillRule="EvenOdd" Fill="#EEEEF2"/>
+                                            </Canvas>
+                                        </Viewbox>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="Shape" Property="Fill" Value="#FF007ACC"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Grid.Column="1" Height="40" Width="40" Margin="5" Visibility="{Binding Path=IsPaused, Converter={StaticResource InverseVisibilityConverter}}" Command="{Binding Path=PauseCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Viewbox Stretch="Uniform">
+                                            <Canvas Width="80" Height="100" Background="Transparent">
+                                                <Rectangle x:Name="Shape1" Canvas.Top="0" Width="30" Height="100" Fill="#EEEEF2"/>
+                                                <Rectangle x:Name="Shape2" Canvas.Left="50" Canvas.Top="0" Width="30" Height="100" Fill="#EEEEF2"/>
+                                            </Canvas>
+                                        </Viewbox>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="Shape1" Property="Fill" Value="#FF007ACC"/>
+                                                <Setter TargetName="Shape2" Property="Fill" Value="#FF007ACC"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Grid.Column="2" Height="40" Width="40" Margin="5" Command="{Binding Path=NextCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Viewbox Stretch="Uniform">
+                                            <Canvas Width="125" Height="75" Background="Transparent">
+                                                <Polygon x:Name="Shape1" Points="75,37.5006 37.5003,56.2503 0.0003,75 0.0004,37.5003 -0,0 37.5002,18.7502" FillRule="EvenOdd" Fill="#EEEEF2"/>
+                                                <Polygon x:Name="Shape2" Points="125,37.5 87.5,56.25 50.0002,75 50.0002,37.5 50.0002,0 87.5,18.75" FillRule="EvenOdd" Fill="#EEEEF2"/>
+                                            </Canvas>
+                                        </Viewbox>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="Shape1" Property="Fill" Value="#FF007ACC"/>
+                                                <Setter TargetName="Shape2" Property="Fill" Value="#FF007ACC"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <this:VolumeSlider x:Name="VolumeSlider" Grid.Column="3" Margin="0,5" Height="20" VolumeChanged="VolumeSlider_OnVolumeChanged" Maximum="2" Volume="0.5"/>
+                <TextBlock Text="{Binding ElementName=VolumeSlider, Path=Volume, Converter={StaticResource FloatToPercentageConverter}, ConverterParameter=%}" Grid.Column="3" Foreground="#EEEEF2" FontWeight="320" FontSize="18" IsHitTestVisible="False" Focusable="False" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,2,0"/>
+                <!--<Slider Grid.Column="3" Margin="0,5">
+                    <Slider.Style>
+                        <Style TargetType="Slider">
+                            <Setter Property="Maximum" Value="10" />
+                            <Setter Property="Minimum" Value="1" />
+                            <Setter Property="Value" Value="1" />
+                            <Setter Property="IsTabStop" Value="False" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Slider">
+                                        <Grid x:Name="Root" RenderTransformOrigin="0.5,0.5">
+                                            <Grid.Resources>
+                                                <ControlTemplate x:Key="RepeatButtonTemplate">
+                                                    <Grid x:Name="Root"
+                                          Background="Transparent"
+                                          Opacity="0" />
+                                                </ControlTemplate>
+                                                <Style x:Key="MetroThumbStyle" TargetType="Thumb">
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="Thumb">
+                                                                <Grid Background="#FF319FFD" />
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </Grid.Resources>
+                                            <Grid.LayoutTransform>
+                                                <TransformGroup>
+                                                    <RotateTransform Angle="90"/>
+                                                </TransformGroup>
+                                            </Grid.LayoutTransform>
+
+                                            <Grid x:Name="VerticalTemplate" Visibility="Visible">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+
+                                                <Rectangle Grid.Row="0"
+                                           Grid.RowSpan="3"
+                                           Width="6"
+                                           Margin="0,5,0,5"
+                                           Fill="#ffc8c6c6"
+                                           RadiusX="1"
+                                           RadiusY="1"
+                                           StrokeThickness="0" />
+                                                <RepeatButton x:Name="VerticalTrackLargeChangeDecreaseRepeatButton"
+                                              Grid.Row="2"
+                                              Width="18"
+                                              IsTabStop="False"
+                                              Template="{StaticResource RepeatButtonTemplate}" />
+                                                <Thumb x:Name="VerticalThumb"
+                                       Grid.Row="1"
+                                       Width="18"
+                                       Height="11"
+                                       IsTabStop="True"
+                                       Style="{StaticResource MetroThumbStyle}" />
+                                                <RepeatButton x:Name="VerticalTrackLargeChangeIncreaseRepeatButton"
+                                              Grid.Row="0"
+                                              Width="18"
+                                              IsTabStop="False"
+                                              Template="{StaticResource RepeatButtonTemplate}" />
+
+                                            </Grid>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Slider.Style>
+                </Slider>-->
+                <Grid Grid.Column="4" Margin="5" Width="15">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Button Grid.Row="0" Command="{Binding Path=OpenClosePlaylistCommand}">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Viewbox Stretch="Uniform">
+                                                <Canvas Width="100" Height="100" Canvas.Left="0" Canvas.Top="0" Background="Transparent">
+                                                    <Rectangle x:Name="Shape1" Canvas.Top="12" Width="100" Height="18" Fill="#EEEEF2"/>
+                                                    <Rectangle x:Name="Shape2" Canvas.Top="42" Width="100" Height="18" Fill="#EEEEF2"/>
+                                                    <Rectangle x:Name="Shape3" Canvas.Top="72" Width="100" Height="18" Fill="#EEEEF2"/>
+                                                </Canvas>
+                                            </Viewbox>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="Shape1" Property="Fill" Value="#FF007ACC"/>
+                                                    <Setter TargetName="Shape2" Property="Fill" Value="#FF007ACC"/>
+                                                    <Setter TargetName="Shape3" Property="Fill" Value="#FF007ACC"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button Grid.Row="1">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Viewbox Stretch="Uniform">
+                                                <Canvas Name="svg2" Width="100" Height="100" Canvas.Left="0" Canvas.Top="0" Background="Transparent">
+                                                    <Path x:Name="Shape" Fill="#EEEEF2">
+                                                        <Path.Data>
+                                                            <PathGeometry Figures="M87.57 43.828l-0.983-7.478l6.209-9.085l-9.147-13.143l-11.434 4.378l-6.537-4.378L64.043 3.891   L49.011 1.955l-5.226 10.061l-7.185 2.107l-9.155-6.338l-12.089 6.338l3.555 10.872l-4.476 7.531L3.274 34.384l-1.64 15.61   l9.64 3.207c0 0 3.754 10.1 2.774 10.1c-0.976 0-6.864 8.772-6.864 8.772l7.844 12.332l13.073-5.198l6.205 5.198l0.979 11.356   l15.359 2.278l4.57-10.061l6.868-1.631l10.45 5.85l11.435-7.793l-3.267-10.716l3.267-6.486l12.417-2.606L99 49.022L87.57 43.828z    M50.326 70.992c-12.188 0-22.061-9.4-22.061-20.998c0-11.603 9.873-21.003 22.061-21.003c12.163 0 22.052 9.4 22.052 21.003   C72.378 61.592 62.489 70.992 50.326 70.992z" FillRule="NonZero"/>
+                                                        </Path.Data>
+                                                    </Path>
+                                                </Canvas>
+                                            </Viewbox>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="Shape" Property="Fill" Value="#FF007ACC"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </Grid>
+            </Grid>
+            <this:ProgressSlider x:Name="progress" Grid.Row="1" Height="5"/>
+        </Grid>
+    </Border>
+</Window>

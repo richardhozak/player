@@ -1,0 +1,190 @@
+﻿<Window x:Class="DriftPlayer.SideWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:driftPlayer="clr-namespace:DriftPlayer"
+        Title="SideWindow" Width="345" WindowStyle="None" ShowInTaskbar="False" AllowsTransparency="True" Background="#FF005CB0" Topmost="True" BorderThickness="1,0,0,0" BorderBrush="#004686">
+    <Window.Resources>
+        <Style TargetType="Button" x:Key="AddButtonStyle">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="MinWidth" Value="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"/>
+            <Setter Property="MinHeight" Value="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"/>
+            <Setter Property="IsTabStop" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid x:Name="grid">
+                            <Border x:Name="border" Background="#FF005CB0" Padding="{TemplateBinding Padding}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="#2171BA" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="#3E84C3" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Playlist" Foreground="White" FontSize="30" Margin="40,30,0,20" FontWeight="300"/>
+        <ListBox Margin="-1,0,0,0" Padding="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="1" HorizontalContentAlignment="Stretch" Background="Transparent" ItemsSource="{Binding Path=Playlist}" SelectedItem="{Binding Path=Selected}" BorderThickness="0" MouseDoubleClick="Control_OnMouseDoubleClick" TabIndex="0">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Margin="40,5" FontSize="14" FontWeight="300" Foreground="White" Text="{Binding Path=Title}" TextWrapping="Wrap"/>
+                        <Button Grid.Column="1" Command="{Binding RelativeSource={RelativeSource AncestorType=driftPlayer:SideWindow}, Path=DataContext.RemoveAudioCommand}" CommandParameter="{Binding}" Margin="5" Padding="5" Width="20" Height="20">
+                            <Button.Content>
+                                <Viewbox Stretch="Uniform">
+                                    <Canvas Width="100" Height="100" Canvas.Left="0" Canvas.Top="0">
+                                        <Polygon Points="14,14 14,32 32,50 14,68 14,86 32,86 50,68 68,86 86,86 86,68 68,50 86,32 86,14 68,14 50,32 32,14 " FillRule="NonZero" Fill="White">
+                                            <Polygon.RenderTransform>
+                                                <MatrixTransform Matrix="1.3888889 0 0 1.3888889 -19.444444 -19.444444"/>
+                                            </Polygon.RenderTransform>
+                                        </Polygon>
+                                    </Canvas>
+                                </Viewbox>
+                            </Button.Content>
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="SnapsToDevicePixels" Value="True"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                                    <Setter Property="MinWidth" Value="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"/>
+                                    <Setter Property="MinHeight" Value="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"/>
+                                    <Setter Property="IsTabStop" Value="False"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Grid x:Name="grid">
+                                                    <Border x:Name="border" Background="#FF005CB0" Padding="{TemplateBinding Padding}">
+                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" TargetName="border" Value="#2171BA" />
+                                                    </Trigger>
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter Property="Background" TargetName="border" Value="#3E84C3" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                    <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="IsTabStop" Value="False"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" TargetName="Bd" Value="#0C77D8"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+                                    </Trigger>
+                                    <!--<Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" TargetName="Bd" Value="{x:Null}"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+                                    </Trigger>-->
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="IsSelected" Value="True"/>
+                                            <Condition Property="Selector.IsSelectionActive" Value="False"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}"/>
+                                    </MultiTrigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+        <Border Grid.Row="2" BorderThickness="0,1,0,0" SnapsToDevicePixels="True" BorderBrush="#3D83C3" Margin="40,0"/>
+        <Grid Grid.Row="3" Margin="40,14,40,40">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Padding="10" Style="{StaticResource AddButtonStyle}" Command="{Binding Path=AddSoundcloudCommand}">
+                <Viewbox>
+                    <Canvas x:Name="Calque_1" Height="53.006" Canvas.Left="0" Canvas.Top="-0.006" Width="92.984">
+                        <Path Data="F1M57.027,0C54.446,0 51.932,0.508 49.711,1.368 48.848,1.701 48.618,2.045 48.609,2.712L48.609,39.013C48.619,39.712 49.163,40.295 49.845,40.365 49.874,40.367 81.344,40.383 81.548,40.383 87.863,40.383 92.984,35.263 92.984,28.944 92.984,22.628 87.865,17.506 81.549,17.506 79.981,17.506 78.486,17.823 77.125,18.394 76.215,8.086 67.57,0 57.027,0z M45.011,3.937L44.495,29.702 45.012,39.053C45.021,39.735 45.585,40.299 46.272,40.299 46.957,40.299 47.521,39.735 47.53,39.043L47.53,39.054 48.092,29.702 47.53,3.935C47.521,3.244 46.957,2.681 46.272,2.681 45.585,2.681 45.021,3.244 45.011,3.937 M41.187,6.076L40.742,29.691C40.742,29.706 41.187,39.186 41.187,39.186 41.197,39.829 41.727,40.356 42.368,40.356 43.007,40.356 43.535,39.829 43.546,39.181L43.546,39.188 43.546,39.181 44.045,29.7 43.546,6.076C43.536,5.427 43.007,4.9 42.368,4.9 41.726,4.9 41.197,5.427 41.187,6.076 M29.748,8.55L29.162,29.692 29.749,39.398C29.763,39.918 30.177,40.33 30.689,40.33 31.202,40.33 31.613,39.918 31.63,39.395L31.63,39.4 31.63,39.395 31.63,39.393 32.291,29.694 31.63,8.55C31.615,8.025 31.201,7.613 30.689,7.613 30.176,7.613 29.762,8.024 29.748,8.55 M33.529,9.092L32.991,29.696 33.53,39.308C33.543,39.872 33.992,40.32 34.553,40.32 35.109,40.32 35.559,39.872 35.574,39.302L35.574,39.31 36.18,29.694 35.573,9.092C35.557,8.522 35.108,8.076 34.552,8.076 33.991,8.076 33.542,8.522 33.529,9.092 M25.995,9.239C25.995,9.241,25.361,29.692,25.361,29.692L25.995,39.458C26.01,39.934 26.389,40.31 26.856,40.31 27.321,40.31 27.7,39.934 27.719,39.456L28.433,29.692 27.72,9.238C27.701,8.758 27.323,8.383 26.858,8.383 26.389,8.383 26.01,8.759 25.995,9.239 M37.343,9.846L36.85,29.698 37.343,39.249C37.355,39.857 37.839,40.338 38.444,40.338 39.049,40.338 39.531,39.859 39.545,39.242L39.545,39.25 40.097,29.699 39.545,9.844C39.531,9.23 39.049,8.749 38.444,8.749 37.84,8.749 37.355,9.23 37.343,9.846 M22.271,10.813C22.271,10.814,21.591,29.691,21.591,29.691L22.271,39.558C22.289,39.989 22.633,40.33 23.054,40.33 23.473,40.33 23.818,39.989 23.838,39.554L24.605,29.691 23.838,10.813C23.817,10.378 23.473,10.037 23.054,10.037 22.633,10.037 22.289,10.378 22.271,10.813 M18.578,14.324L17.85,29.689 18.578,39.618C18.597,40.005 18.905,40.311 19.281,40.311 19.653,40.311 19.963,40.004 19.984,39.616L19.984,39.619 20.808,29.689 19.984,14.324C19.963,13.934 19.653,13.627 19.281,13.627 18.905,13.627 18.596,13.934 18.578,14.324 M11.28,19.504L10.46,29.684 11.28,39.533C11.302,39.838 11.538,40.068 11.826,40.068 12.11,40.068 12.345,39.838 12.371,39.533L13.303,29.684 12.371,19.502C12.345,19.197 12.11,18.967 11.826,18.967 11.538,18.967 11.303,19.197 11.28,19.504 M7.677,19.774C7.677,19.775,6.809,29.682,6.809,29.682L7.677,39.228C7.701,39.493 7.897,39.685 8.142,39.685 8.384,39.685 8.581,39.494 8.609,39.23L9.595,29.682 8.609,19.774C8.581,19.509 8.384,19.318 8.142,19.318 7.898,19.318 7.702,19.51 7.677,19.774 M14.914,20.242L14.141,29.684 14.914,39.614C14.936,39.964 15.203,40.23 15.539,40.23 15.87,40.23 16.138,39.964 16.163,39.616L17.041,29.684 16.163,20.237C16.139,19.889 15.872,19.625 15.539,19.625 15.203,19.625 14.935,19.891 14.914,20.242 M4.102,21.33C4.102,21.332,3.189,29.681,3.189,29.681L4.102,37.846C4.129,38.066 4.292,38.223 4.49,38.223 4.684,38.223 4.844,38.07 4.876,37.849L5.916,29.681 4.877,21.33C4.845,21.108 4.685,20.955 4.49,20.955 4.293,20.955 4.13,21.113 4.102,21.33 M0.68,24.516L0,29.681 0.68,34.757C0.705,34.972 0.859,35.12 1.053,35.12 1.241,35.12 1.393,34.972 1.424,34.759L1.424,34.758 1.424,34.759 2.229,29.681 1.424,24.516C1.394,24.302 1.24,24.152 1.053,24.152 0.859,24.152 0.705,24.302 0.68,24.516 M63.369,48.605C63.369,51.202 64.746,53.005 67.076,53.005 69.404,53.005 70.782,51.202 70.782,48.605 70.782,46.008 69.404,44.204 67.076,44.204 64.746,44.204 63.369,46.008 63.369,48.605 M65.125,48.607C65.125,47.082 65.696,45.9 67.076,45.9 68.452,45.9 69.025,47.082 69.025,48.607 69.025,50.129 68.452,51.311 67.076,51.311 65.696,51.311 65.125,50.129 65.125,48.607 M49.057,48.605C49.057,51.299 50.557,53.005 52.788,53.005 54.337,53.005 55.361,52.286 55.945,51.079L54.508,50.226C54.057,50.982 53.605,51.311 52.837,51.311 51.557,51.311 50.812,50.139 50.812,48.605 50.811,47.021 51.546,45.898 52.826,45.898 53.593,45.898 54.081,46.241 54.386,46.826L55.971,46.094C55.434,44.985 54.458,44.204 52.849,44.204 50.62,44.204 49.057,46.008 49.057,48.605 M13.385,48.605C13.385,51.202 14.762,53.005 17.09,53.005 19.418,53.005 20.797,51.202 20.797,48.605 20.797,46.008 19.418,44.204 17.09,44.204 14.762,44.204 13.385,46.008 13.385,48.605 M15.139,48.607C15.139,47.082 15.713,45.9 17.09,45.9 18.469,45.9 19.041,47.082 19.041,48.607 19.041,50.129 18.469,51.311 17.09,51.311 15.713,51.311 15.139,50.129 15.139,48.607 M5.749,46.704C5.749,48.386 6.846,48.886 8.419,49.251 10.027,49.617 10.32,49.861 10.32,50.41 10.32,51.056 9.843,51.337 8.834,51.337 8.016,51.337 7.249,51.057 6.65,50.361L5.42,51.458C6.065,52.409 7.311,53.006 8.735,53.006 11.066,53.006 12.09,51.909 12.09,50.288 12.09,48.435 10.589,47.971 9.236,47.654 7.883,47.336 7.517,47.166 7.517,46.63 7.517,46.252 7.821,45.861 8.735,45.861 9.517,45.861 10.127,46.178 10.675,46.739L11.905,45.545C11.101,44.704 10.126,44.204 8.798,44.204 7.114,44.204 5.749,45.155 5.749,46.704 M36.756,44.336L36.756,47.947C36.756,48.423 36.779,49.495 36.779,49.812 36.67,49.592 36.39,49.167 36.183,48.849L33.158,44.336 31.524,44.336 31.524,52.872 33.208,52.872 33.208,49.116C33.208,48.64 33.184,47.567 33.184,47.251 33.293,47.47 33.575,47.898 33.781,48.215L36.915,52.872 38.438,52.872 38.438,44.336z M81.512,44.337L81.512,52.873 84.058,52.873C86.255,52.873 88.424,51.605 88.424,48.605 88.424,45.484 86.62,44.337 84.181,44.337z M83.218,45.996L84.121,45.996C85.924,45.996 86.668,46.861 86.668,48.605 86.668,50.167 85.851,51.215 84.058,51.215L83.218,51.215z M77.67,44.337L77.67,49.13C77.67,50.495 77.001,51.337 75.916,51.337 74.829,51.337 74.172,50.472 74.172,49.106L74.172,44.337 72.464,44.337 72.464,49.13C72.464,51.616 73.855,53.006 75.916,53.006 78.086,53.006 79.378,51.58 79.378,49.106L79.378,44.337z M57.449,44.337L57.449,52.873 62.579,52.873 62.579,51.189 59.155,51.189 59.155,44.337z M40.633,44.337L40.633,52.873 43.179,52.873C45.375,52.873 47.546,51.605 47.546,48.605 47.546,45.484 45.742,44.337 43.303,44.337z M42.34,45.996L43.242,45.996C45.047,45.996 45.791,46.861 45.791,48.605 45.791,50.167 44.973,51.215 43.179,51.215L42.34,51.215z M27.686,44.337L27.686,49.13C27.686,50.495 27.014,51.337 25.93,51.337 24.844,51.337 24.187,50.472 24.187,49.106L24.187,44.337 22.478,44.337 22.478,49.13C22.478,51.616 23.87,53.006 25.93,53.006 28.1,53.006 29.392,51.58 29.392,49.106L29.392,44.337z" Height="53.006" Canvas.Left="0" Canvas.Top="0" Width="92.984">
+                            <Path.Fill>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FFF69710" Offset="0"/>
+                                    <GradientStop Color="#FFF7310E" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Path.Fill>
+                        </Path>
+                    </Canvas>
+                </Viewbox>
+            </Button>
+            <Button Grid.Column="1" Padding="10" Style="{StaticResource AddButtonStyle}" Command="{Binding Path=AddYoutubeCommand}">
+                <Viewbox>
+                    <Canvas x:Name="YouTube_Logo" Height="209.077" Canvas.Left="136.265" Canvas.Top="135.924" Width="501.023">
+                        <Path Data="F1M149.24,0C149.24,0 86.558,0 44.773,3.007 38.935,3.699 26.211,3.758 14.854,15.598 5.9,24.619 2.986,45.104 2.986,45.104 2.986,45.104 0,69.159 0,93.215L0,115.769C0,139.823 2.986,163.878 2.986,163.878 2.986,163.878 5.9,184.362 14.854,193.384 26.211,205.225 41.135,204.849 47.779,206.089 71.668,208.372 149.305,209.077 149.305,209.077 149.305,209.077 212.051,208.983 253.836,205.977 259.672,205.284 272.402,205.225 283.756,193.384 292.709,184.362 295.627,163.878 295.627,163.878 295.627,163.878 298.609,139.823 298.609,115.769L298.609,93.215C298.609,69.159 295.627,45.104 295.627,45.104 295.627,45.104 292.709,24.619 283.756,15.598 272.402,3.758 259.672,3.699 253.836,3.007 212.051,0 149.371,0 149.371,0z" Height="209.077" Canvas.Left="202.414" Canvas.Top="0" Width="298.609">
+                            <Path.Fill>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FFE22D28" Offset="0"/>
+                                    <GradientStop Color="#FFBD2126" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Path.Fill>
+                        </Path>
+                        <Path Data="F1M53,101L34,101 34,90C26.797,98.256 20.691,102.426 14.035,102.426 8.195,102.426 4.14,99.671 2.109,94.693 0.875,91.667 0,86.941 0,80L0,0 19,0 19,75 19,82C19.443,84.807 20.635,85.832 23.051,85.832 26.688,85.832 29.979,82.672 34,77L34,0 53,0z" Fill="Black" Height="102.426" Canvas.Left="134" Canvas.Top="68.196" Width="53"/>
+                        <Path Data="F1M35,71.736C36,81.736 32.898,86.698 26.999,86.698 21.099,86.698 18,81.736 19,71.736L19,31.736C18,21.736 21.1,17.049 27,17.049 32.9,17.049 36.01,21.736 35.01,31.736z M54,33.736C54,22.943 51.832,14.838 48,9.736 42.938,2.828 35,0 27,0 17.945,0 11.054,2.828 6,9.736 2.107,14.838 0.019,23.03 0.019,33.824L0,69.736C0,80.468 1.857,87.884 5.75,92.937 10.805,99.824 19,103.472 27,103.472 35,103.472 43.339,99.824 48.4,92.937 52.232,87.884 54,80.468 54,69.736z" Fill="Black" Height="103.472" Canvas.Left="66" Canvas.Top="67.46" Width="54"/>
+                        <Path Data="F1M45,80L45,135 25,135 25,80C25,80,4.275,12.569,0,0L21,0 35.035,52.675 49,0 70,0z" Fill="Black" Height="135" Canvas.Left="0" Canvas.Top="34.196" Width="70"/>
+                        <Path Data="F1M19,28.406C19,19.06 21.563,16.511 27.609,16.511 33.611,16.511 36,19.288 36,28.531L36,39.448 19,39.466z M55.035,54.448L55.031,34.004C55.031,23.324 52.928,15.511 49.143,10.457 44.068,3.619 36.859,0 27.777,0 18.535,0 11.326,3.619 6.09,10.457 2.244,15.511 0,23.767 0,34.448L0,69.448C0,80.067 2.467,87.5 6.312,92.5 11.547,99.328 18.756,102.737 28.227,102.737 37.686,102.737 45.115,99.16 50.123,91.905 52.324,88.701 53.746,85.071 54.357,81.057 54.52,79.244 55,75.115 55,69.281L55,66.448 36.001,66.448C36.001,73.711 36.033,78.03 35.865,79.016 34.832,83.856 32.234,86.28 27.777,86.28 21.563,86.28 18.938,81.633 19,72.406L19,54.448z" Fill="White" Height="102.737" Canvas.Left="421" Canvas.Top="67.749" Width="55.035"/>
+                        <Path Data="F1M35,105C35,115 32.643,118.832 27.422,118.832 24.441,118.832 21.007,117.298 17.979,114.271L18,53.625C21.027,50.637 24.441,49.064 27.422,49.064 32.643,49.064 35,52 35,62z M37.107,32.396C30.447,32.396,23.827,36.492,17.979,43.687L18,0 0,0 0,134 18,134 18.025,123.932C24.074,131.416 30.67,135.289 37.107,135.289 44.316,135.289 49.584,131.43 52,124 53.209,119.764 54,113.242 54,104L54,64C54,54.535 52.787,48.064 51.578,44.044 49.162,36.56 44.316,32.396 37.107,32.396" Fill="White" Height="135.289" Canvas.Left="355" Canvas.Top="35.196" Width="54"/>
+                        <Path Data="F1M53,100L34,100 34,89C26.797,97.256 20.691,101.426 14.035,101.426 8.195,101.426 4.14,98.671 2.109,93.693 0.875,90.667 0,85.941 0,79L0,0 19,0 19,74 19,81C19.443,83.807 20.635,84.832 23.051,84.832 26.688,84.832 29.979,81.672 34,76L34,0 53,0z" Fill="White" Height="101.426" Canvas.Left="287" Canvas.Top="69.196" Width="53"/>
+                        <Path Data="F1M41,134L21,134 21,19 0,19 0,0.021 63,0 63,19 41,19z" Fill="White" Height="134" Canvas.Left="227" Canvas.Top="35.196" Width="63"/>
+                    </Canvas>
+                </Viewbox>
+            </Button>
+            <Button Grid.Column="2" Padding="20" Style="{StaticResource AddButtonStyle}" Command="{Binding Path=AddFilesCommand}">
+                <Viewbox>
+                    <Canvas x:Name="Capa_1" Height="56.795" Canvas.Left="14.437" Canvas.Top="13.088" Width="76.193">
+                        <Path Data="F1M66.598,0.9C66.202,0.336,65.555,0,64.866,0L12.923,0C12.031,0,11.235,0.556,10.932,1.396L0.125,31.256C-0.109,31.906 -0.012,32.627 0.383,33.192 0.779,33.756 1.426,34.092 2.116,34.092L54.057,34.092C54.948,34.092,55.744,33.536,56.047,32.696L66.854,2.835C67.09,2.186,66.994,1.464,66.598,0.9" Fill="White" Height="34.093" Canvas.Left="9.211" Canvas.Top="22.702" Width="66.982"/>
+                        <Path Data="F1M2.356,54.589L15.185,19.144C15.791,17.467,17.382,16.351,19.166,16.351L67.296,16.351 67.296,12.47C67.296,10.133,65.401,8.237,63.063,8.237L32.976,8.237 25.98,1.24C25.186,0.446,24.109,0,22.986,0L4.233,0C1.896,0,0,1.896,0,4.234L0,50.798C0,52.462,0.961,53.896,2.356,54.589" Fill="White" Height="54.589" Canvas.Left="0" Canvas.Top="0" Width="67.296"/>
+                    </Canvas>
+                </Viewbox>
+            </Button>
+        </Grid>
+    </Grid>
+</Window>
